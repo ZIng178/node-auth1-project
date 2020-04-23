@@ -16,10 +16,21 @@ router.post("/register", (req,res)=>{
 })
 
 router.post("/login", (req,res)=>{
-    const {username,password}=req.body
-    Users.findBy({username})
-    .then()
+   const {username,password}=req.body;
+   Users.findBy({username})
+   .then(([user])=>{
+       if(user &&bcrypt.compareSync(password,user.password)){
+       //if the user exists and the password matches 
+       res.status(200).json({username:user.username})
+       }else{
+           res.status(401).json({message:"Invalid credentials"})
+       }
+   })
+   .catch(err=>{
+       res.status(501).json({message:"Cannot log in ", err})
+   })
 })
+
 router.get("/register", (req, res) => {
 res.send("from router")
   });
