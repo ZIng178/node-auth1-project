@@ -1,4 +1,4 @@
-const db = require("../database/migrations/dbConfig");
+const db = require("../database/dbConfig");
 
 module.exports = {
   add,
@@ -15,15 +15,16 @@ function findBy(filter) {
   return db("users").where(filter);
 }
 
-async function add(user) {
-  const [id] = await db("users").insert(user, "id");
-
+async function add(UserInfo) {
+  const [id] = await db("users").insert(UserInfo, "id");
   return findById(id);
 }
 
 function findById(id) {
   return db("users")
-  .select("id",'username')
+  // 
     .where({ id })
+    .select("id",'username','password')
     .first();
+    
 }

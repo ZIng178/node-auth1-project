@@ -5,8 +5,9 @@ exports.up = function(knex) {
     
         users
           .string('username', 128)
+          .unique()
           .notNullable()
-          .unique();
+          
         users.string('password', 128).notNullable();
       });
     };
